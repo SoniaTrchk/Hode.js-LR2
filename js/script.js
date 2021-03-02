@@ -1,78 +1,66 @@
-function getHistory(){
-    return document.getElementById("history-value").innerText;
-}
-function printHistory(num){
-    document.getElementById("history-value").innerText=num;
-}
-function getOutput(){
-    return document.getElementById("output-value").innerText;
-}
-function printOutput(num){
-    if(num==""){
-        document.getElementById("output-value").innerText=num;
-    }
-    else{
-        document.getElementById("output-value").innerText=getFormattedNumber(num);
-    }
-}
-function getFormattedNumber(num){
-    if(num=="-"){
-        return "";
-    }
-    var n = Number(num);
-    var value = n.toLocaleString("en");
-    return value;
-}
-function reverseNumberFormat(num){
-    return Number(num.replace(/,/g,''));
-}
-var operator = document.getElementsByClassName("operator");
-for(var i =0;i<operator.length;i++){
-    operator[i].addEventListener('click',function(){
-        if(this.id=="clear"){
-            printHistory("");
-            printOutput("");
-        }
-        else if(this.id=="backspace"){
-            var output=reverseNumberFormat(getOutput()).toString();
-            if(output){//if output has a value
-                output= output.substr(0,output.length-1);
-                printOutput(output);
-            }
-        }
-        else{
-            var output=getOutput();
-            var history=getHistory();
-            if(output==""&&history!=""){
-                if(isNaN(history[history.length-1])){
-                    history= history.substr(0,history.length-1);
-                }
-            }
-            if(output!="" || history!=""){
-                output= output==""?output:reverseNumberFormat(output);
-                history=history+output;
-                if(this.id=="="){
-                    var result=eval(history);
-                    printOutput(result);
-                    printHistory("");
-                }
-                else{
-                    history=history+this.id;
-                    printHistory(history);
-                    printOutput("");
-                }
-            }
-        }
+let calcOrdinaryButtons = ["C", "CE", "÷", 7, 8, 9, "×", 4, 5, 6, "-", 1, 2, 3, "+", 0, ".", "="];
+// let calcProgrammingButtons = [];
+// let calcEngineeringButtons = [];
 
-    });
-}
-var number = document.getElementsByClassName("number");
-for(var i =0;i<number.length;i++){
-    number[i].addEventListener('click',function(){
-        var output=reverseNumberFormat(getOutput());
-        if(output!=NaN){ //if output is a number
-            output=output+this.id;
-            printOutput(output);
+function createOrdinary(){
+    document.getElementById("btn-ordinary").style.backgroundColor = "lightgrey";
+    //give styles for each div
+    let container = document.getElementById("container");
+    container.className = "container";
+    let result = document.getElementById("result");
+    result.className = "result";
+    let history = document.getElementById("history");
+    history.className = "history";
+    let output = document.getElementById("output");
+    output.className = "output";
+    let keyboard = document.getElementById("container");
+    keyboard.className = "container";
+
+    //generate buttons from array values
+    for (let i = 0; i < calcOrdinaryButtons.length; i++){
+        let btn = document.createElement("button");
+        if (i === 1 || i === calcOrdinaryButtons.length-1){
+            btn.className = "key-wide";
+        }else {
+            btn.className = "key";
         }
-    });
+        btn.setAttribute("id", calcOrdinaryButtons[i]);
+        btn.setAttribute("value", calcOrdinaryButtons[i]);
+        btn.innerHTML = calcOrdinaryButtons[i];
+        if (btn.value === "÷"){
+            btn.value = "/";
+        }else if (btn.value === "×"){
+            btn.value = "*";
+        }
+        //insert buttons
+        keyboard.insertAdjacentElement("beforeend", btn);
+
+        //onclick functions for generated buttons
+        btn.onclick = function (){
+            let output = document.getElementById("output");
+            //clean 1 symbol
+            if (btn.value === "C"){
+                output.innerText = output.innerText.slice(0, -1);
+            }
+            //clean everything
+            else if (btn.value === "CE"){
+                output.innerText = "";
+                history.innerText = "";
+            }
+            //convert output to JavaScript code
+            else if (btn.value === "="){
+                history.insertAdjacentHTML("beforeend", output.innerText);
+                let result = eval(output.innerText);
+                result = parseFloat(result);
+                result = Number(result.toFixed(10))
+                output.innerText = result;
+            }else {
+                output.innerText += btn.value;
+            }
+        }
+    }
+    //make button click only once
+    document.getElementById("btn-ordinary").onclick = null;
 }
+
+
