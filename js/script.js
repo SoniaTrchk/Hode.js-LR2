@@ -13,8 +13,8 @@ function createOrdinary(){
     history.className = "history";
     let output = document.getElementById("output");
     output.className = "output";
-    let keyboard = document.getElementById("container");
-    keyboard.className = "container";
+    let keyboard = document.getElementById("keyboard");
+
 
     //generate buttons from array values
     for (let i = 0; i < calcOrdinaryButtons.length; i++){
@@ -59,8 +59,7 @@ function createOrdinary(){
             }
         }
     }
-    //make button click only once
-    document.getElementById("btn-ordinary").onclick = null;
 }
+
 
 
