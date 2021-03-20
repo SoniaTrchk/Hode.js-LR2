@@ -24,6 +24,15 @@ h1, h2{
     position: relative;
     border-radius: 5px;
 }
+.container3{
+    width: 360px;
+    height: 350px;
+    background-color: #eaedef;
+    margin: 0 auto;
+    top: 20px;
+    position: relative;
+    border-radius: 5px;
+}
 .key{
     width: 70px;
     height: 70px;
