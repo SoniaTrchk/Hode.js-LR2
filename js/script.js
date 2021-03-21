@@ -202,10 +202,53 @@ function createProgramming() {
             //convert output to JavaScript code
             else if (btn.value === "=") {
                 history.insertAdjacentHTML("beforeend", output.innerText);
-                let result = eval(output.innerText);
-                result = parseFloat(result);
-                result = Number(result.toFixed(10))
-                output.innerText = result;
+                let text = output.innerText;
+                if (text.includes("&")) {
+                    var arr = text.split("&");
+                    var decResult = parseInt(arr[0], 2) & parseInt(arr[1], 2);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                } else if (text.includes("|")) {
+                    var arr = text.split("|");
+                    var decResult = parseInt(arr[0], 2) | parseInt(arr[1], 2);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                } else if (text.includes("^")) {
+                    var arr = text.split("^");
+                    var decResult = parseInt(arr[0], 2) ^ parseInt(arr[1], 2);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                } else if (text.includes("~")) {
+                    var arr = text.split("~");
+                    var decResult = (~parseInt(arr[1], 2))*(-1);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                } else if (text.includes("+")) {
+                    var arr = text.split("+");
+                    var decResult = parseInt(arr[0], 2) + parseInt(arr[1], 2);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                } else if (text.includes("-")) {
+                    var arr = text.split("-");
+                    var decResult = parseInt(arr[0], 2) - parseInt(arr[1], 2);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                } else if (text.includes("*")) {
+                    var arr = text.split("*");
+                    var decResult = parseInt(arr[0], 2) * parseInt(arr[1], 2);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                } else if (text.includes("/")) {
+                    var arr = text.split("/");
+                    var decResult = parseInt(arr[0], 2) / parseInt(arr[1], 2);
+                    var bitResult = decResult.toString(2);
+                    output.innerText = bitResult;
+                }else {
+                    let result = eval(output.innerText);
+                    result = parseFloat(result);
+                    result = Number(result.toFixed(10))
+                    output.innerText = result;
+                }
             } else {
                 output.innerText += btn.value;
             }
